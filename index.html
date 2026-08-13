@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MasterFinance - ניהול תזרים לעצמאי</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e3a8a', // כחול כהה
+                        secondary: '#3b82f6', // כחול בהיר
+                        accent: '#10b981', // ירוק הצלחה
+                        danger: '#ef4444', // אדום אזהרה
+                        dark: '#0f172a',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background-color: #f8fafc; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body class="text-slate-800 antialiased p-4 md:p-8">
+
+    <header class="mb-8 text-center md:text-right flex flex-col md:flex-row justify-between items-center">
+        <div>
+            <h1 class="text-3xl md:text-4xl font-bold text-primary"><i class="fa-solid fa-chart-line mr-2"></i> MasterFinance</h1>
+            <p class="text-slate-500 mt-2">מערכת ניהול תזרים ודשבורד לעסק</p>
+        </div>
+        <div class="mt-4 md:mt-0 bg-white px-4 py-2 rounded-full shadow text-sm font-semibold text-slate-600">
+            <i class="fa-solid fa-wallet text-secondary"></i> מזומן זמין: 600 ₪
+        </div>
+    </header>
+
+    <!-- שורת כרטיסיות נתונים (KPIs) -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+        <div class="glass-card p-6 rounded-xl border-t-4 border-t-primary">
+            <h3 class="text-sm font-bold text-slate-500 mb-1">מצב קיים בעו"ש</h3>
+            <div id="currentBalance" class="text-3xl font-black text-danger">-2,453.84 ₪</div>
+        </div>
+        <div class="glass-card p-6 rounded-xl border-t-4 border-t-accent">
+            <h3 class="text-sm font-bold text-slate-500 mb-1">עתיד להיכנס (ממתין)</h3>
+            <div id="pendingIncome" class="text-3xl font-black text-accent">3,800.00 ₪</div>
+        </div>
+        <div class="glass-card p-6 rounded-xl border-t-4 border-t-danger">
+            <h3 class="text-sm font-bold text-slate-500 mb-1">הוצאות קבועות</h3>
+            <div id="fixedExpenses" class="text-3xl font-black text-danger">1,496.00 ₪</div>
+        </div>
+        <div class="glass-card p-6 rounded-xl border-t-4 border-t-secondary">
+            <h3 class="text-sm font-bold text-slate-500 mb-1">צפי סוף חודש (תכנון)</h3>
+            <div id="projectedBalance" class="text-3xl font-black text-slate-800">-149.84 ₪</div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <!-- אזור טופס הזנה -->
+        <div class="lg:col-span-1">
+            <div class="glass-card p-6 rounded-xl">
+                <h2 class="text-xl font-bold text-primary mb-4"><i class="fa-solid fa-plus-circle"></i> הוספת תנועה חדשה</h2>
+                <form id="transactionForm" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">סוג תנועה</label>
+                        <select id="type" class="w-full p-2 border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-secondary" required>
+                            <option value="income">הכנסה (בוצע)</option>
+                            <option value="expense">הוצאה (בוצע)</option>
+                            <option value="pending_income">הכנסה עתידית/ממתינה</option>
+                            <option value="fixed_expense">הוצאה קבועה</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">קטגוריה</label>
+                        <select id="category" class="w-full p-2 border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-secondary" required>
+                            <option value="business">עסק</option>
+                            <option value="home">בית / אישי</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">תיאור</label>
+                        <input type="text" id="description" placeholder="לדוגמה: עבודת חשמל במגרש" class="w-full p-2 border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-secondary" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">סכום (₪)</label>
+                        <input type="number" id="amount" step="0.01" class="w-full p-2 border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-secondary" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">תאריך</label>
+                        <input type="date" id="date" class="w-full p-2 border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-secondary" required>
+                    </div>
+                    <button type="submit" class="w-full bg-primary text-white font-bold py-3 rounded hover:bg-blue-900 transition-colors">
+                        שמור ועדכן מסד נתונים
+                    </button>
+                </form>
+            </div>
+
+            <!-- אזור גרף -->
+            <div class="glass-card p-6 rounded-xl mt-6">
+                <h2 class="text-xl font-bold text-primary mb-4"><i class="fa-solid fa-chart-pie"></i> התפלגות הוצאות</h2>
+                <canvas id="expensesChart"></canvas>
+            </div>
+        </div>
+
+        <!-- אזור תצוגת טבלאות -->
+        <div class="lg:col-span-2 space-y-6">
+            
+            <div class="glass-card p-6 rounded-xl overflow-hidden">
+                <h2 class="text-xl font-bold text-primary mb-4"><i class="fa-solid fa-list"></i> תנועות שבוצעו (אוגוסט)</h2>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-right border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-600 text-sm">
+                                <th class="p-3 border-b">תאריך</th>
+                                <th class="p-3 border-b">שיוך</th>
+                                <th class="p-3 border-b">תיאור</th>
+                                <th class="p-3 border-b">סכום</th>
+                            </tr>
+                        </thead>
+                        <tbody id="completedBody" class="text-sm">
+                            <!-- נתונים יוזרקו לכאן -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="glass-card p-6 rounded-xl overflow-hidden">
+                <h2 class="text-xl font-bold text-secondary mb-4"><i class="fa-solid fa-clock"></i> תכנון והמתנה (עתידי)</h2>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-right border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-600 text-sm">
+                                <th class="p-3 border-b">סוג</th>
+                                <th class="p-3 border-b">תיאור</th>
+                                <th class="p-3 border-b">סכום</th>
+                            </tr>
+                        </thead>
+                        <tbody id="futureBody" class="text-sm">
+                            <!-- נתונים יוזרקו לכאן -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // שים לב: כאן אתה מדביק את הלינק שקיבלת מה-Apps Script של גוגל!
+        const GOOGLE_APP_URL = 'https://script.google.com/macros/s/AKfycbyzewfMQjE08y8JS4S44OdeUuJTfnAdhZjcYHfPPs_T-sGwQ5bwMozesqzI8yk_fakDKQ/exec';
+
+        // מערך נתוני בסיס ראשוניים מתוך גיליון ה"ניהול פיננסי" שהבאת לי
+        let transactions = [
+            { id: 1, type: 'income', category: 'home', description: 'משכורת רמות מ.א', amount: 6042.11, date: '2026-08-06' },
+            { id: 2, type: 'income', category: 'business', description: 'עבודה - פייבוקס', amount: 200, date: '2026-08-05' },
+            { id: 3, type: 'expense', category: 'business', description: 'דלק', amount: 312.83, date: '2026-08-03' },
+            { id: 4, type: 'pending_income', category: 'business', description: 'בר עמרן - עבודת חשמל מגרש 101', amount: 1200, date: '2026-08-31' },
+            { id: 5, type: 'pending_income', category: 'business', description: 'בר עמרן - מגרשים', amount: 1300, date: '2026-08-31' },
+            { id: 6, type: 'pending_income', category: 'business', description: 'בר עמרן - מגרשים', amount: 1300, date: '2026-08-31' },
+            { id: 7, type: 'fixed_expense', category: 'home', description: 'מתנה עליסה', amount: 596, date: '2026-08-01' },
+            { id: 8, type: 'fixed_expense', category: 'business', description: 'כלים', amount: 425, date: '2026-08-01' },
+            { id: 9, type: 'fixed_expense', category: 'business', description: 'דלק חודשי קבוע', amount: 450, date: '2026-08-01' },
+            { id: 10, type: 'fixed_expense', category: 'home', description: 'פרטנר', amount: 25, date: '2026-08-01' }
+        ];
+
+        let expensesChartInstance = null;
+
+        async function loadData() {
+            // אם הוכנס לינק של גוגל, ננסה למשוך משם נתונים. אם לא, נשתמש בנתוני הבסיס שיש במערך
+            if(GOOGLE_APP_URL !== 'https://script.google.com/macros/s/AKfycbyzewfMQjE08y8JS4S44OdeUuJTfnAdhZjcYHfPPs_T-sGwQ5bwMozesqzI8yk_fakDKQ/exec') {
+                try {
+                    const response = await fetch(GOOGLE_APP_URL);
+                    const data = await response.json();
+                    if(data && data.length > 0) {
+                        transactions = data;
+                    }
+                } catch (error) {
+                    console.error("שגיאה בטעינת נתונים מגוגל:", error);
+                }
+            }
+            renderDashboard();
+        }
+
+        document.getElementById('transactionForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const submitBtn = this.querySelector('button[type="submit"]');
+            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> שומר...';
+            submitBtn.disabled = true;
+            
+            const transaction = {
+                id: Date.now(),
+                type: document.getElementById('type').value,
+                category: document.getElementById('category').value,
+                description: document.getElementById('description').value,
+                amount: parseFloat(document.getElementById('amount').value),
+                date: document.getElementById('date').value
+            };
+
+            // אם הלינק מוגדר, שולח לגוגל שיטס
+            if(GOOGLE_APP_URL !== 'https://script.google.com/macros/s/AKfycbyzewfMQjE08y8JS4S44OdeUuJTfnAdhZjcYHfPPs_T-sGwQ5bwMozesqzI8yk_fakDKQ/exec') {
+                try {
+                    await fetch(GOOGLE_APP_URL, {
+                        method: 'POST',
+                        body: JSON.stringify(transaction),
+                        headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+                    });
+                } catch (error) {
+                    alert("שגיאה בתקשורת עם גוגל שיטס, שומר מקומית בינתיים.");
+                }
+            }
+
+            transactions.push(transaction);
+            renderDashboard();
+            this.reset();
+            document.getElementById('date').valueAsDate = new Date();
+            
+            submitBtn.innerHTML = 'שמור ועדכן מסד נתונים';
+            submitBtn.disabled = false;
+        });
+
+        function renderDashboard() {
+            let currentBalance = -2453.84; // בסיס המינוס לפי גיליון הנתונים שלך באוגוסט
+            let pendingIncome = 0;
+            let fixedExpenses = 0;
+            let bizExpenseTotal = 0;
+            let homeExpenseTotal = 0;
+
+            const completedBody = document.getElementById('completedBody');
+            const futureBody = document.getElementById('futureBody');
+            
+            completedBody.innerHTML = '';
+            futureBody.innerHTML = '';
+
+            transactions.forEach(t => {
+                const badgeClass = t.category === 'business' ? 'bg-primary text-white' : 'bg-purple-600 text-white';
+                const categoryText = t.category === 'business' ? 'עסק' : 'בית';
+                
+                if (t.type === 'income' || t.type === 'expense') {
+                    // לטבלת תנועות שבוצעו
+                    const amountStyle = t.type === 'income' ? 'text-accent font-bold' : 'text-danger';
+                    const amountSign = t.type === 'income' ? '+' : '-';
+                    
+                    if(t.type === 'expense') {
+                        t.category === 'business' ? bizExpenseTotal += t.amount : homeExpenseTotal += t.amount;
+                    }
+
+                    completedBody.innerHTML += `
+                        <tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+                            <td class="p-3">${t.date}</td>
+                            <td class="p-3"><span class="px-2 py-1 text-xs rounded-full ${badgeClass}">${categoryText}</span></td>
+                            <td class="p-3">${t.description}</td>
+                            <td class="p-3 ${amountStyle}" dir="ltr">${amountSign}${t.amount} ₪</td>
+                        </tr>
+                    `;
+                } else {
+                    // לטבלת תכנון עתידי
+                    if (t.type === 'pending_income') pendingIncome += t.amount;
+                    if (t.type === 'fixed_expense') {
+                        fixedExpenses += t.amount;
+                        t.category === 'business' ? bizExpenseTotal += t.amount : homeExpenseTotal += t.amount;
+                    }
+
+                    const typeText = t.type === 'pending_income' ? '<span class="text-accent font-bold"><i class="fa-solid fa-arrow-down"></i> יכנס</span>' : '<span class="text-danger"><i class="fa-solid fa-thumbtack"></i> קבוע</span>';
+                    
+                    futureBody.innerHTML += `
+                        <tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+                            <td class="p-3">${typeText}</td>
+                            <td class="p-3">${t.description} <span class="mx-1 px-2 py-1 text-xs rounded-full ${badgeClass}">${categoryText}</span></td>
+                            <td class="p-3 font-bold" dir="ltr">${t.amount} ₪</td>
+                        </tr>
+                    `;
+                }
+            });
+
+            // עדכון כרטיסיות למעלה
+            document.getElementById('pendingIncome').innerText = pendingIncome.toLocaleString('he-IL', {minimumFractionDigits: 2}) + ' ₪';
+            document.getElementById('fixedExpenses').innerText = fixedExpenses.toLocaleString('he-IL', {minimumFractionDigits: 2}) + ' ₪';
+            
+            const projectedBalance = currentBalance + pendingIncome - fixedExpenses;
+            document.getElementById('projectedBalance').innerText = projectedBalance.toLocaleString('he-IL', {minimumFractionDigits: 2}) + ' ₪';
+            document.getElementById('projectedBalance').className = projectedBalance >= 0 ? 'text-3xl font-black text-accent' : 'text-3xl font-black text-danger';
+
+            updateChart(bizExpenseTotal, homeExpenseTotal);
+        }
+
+        function updateChart(biz, home) {
+            const ctx = document.getElementById('expensesChart').getContext('2d');
+            if(expensesChartInstance) expensesChartInstance.destroy();
+            
+            expensesChartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['הוצאות עסק', 'הוצאות בית/אישי'],
+                    datasets: [{
+                        data: [biz, home],
+                        backgroundColor: ['#1e3a8a', '#9333ea'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { position: 'bottom' } }
+                }
+            });
+        }
+
+        document.getElementById('date').valueAsDate = new Date();
+        loadData();
+    </script>
+</body>
+</html>
