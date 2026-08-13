@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
 <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
- 
+
 <script>
   tailwind.config = {
     darkMode: 'class',
@@ -63,14 +63,14 @@
 </style>
 </head>
 <body class="text-slate-800 antialiased p-4 md:p-8 min-h-screen">
- 
+
 <div id="loadingScreen" class="fixed inset-0 bg-slate-50 dark:bg-[#0b1220] z-50 flex items-center justify-center flex-col gap-3">
   <i class="fa-solid fa-chart-line text-4xl text-primary animate-pulse"></i>
   <p class="text-slate-500">טוען נתונים...</p>
 </div>
- 
+
 <div id="toastHost" class="fixed bottom-4 left-4 z-50 flex flex-col gap-2"></div>
- 
+
 <header class="mb-6 flex flex-col md:flex-row justify-between items-center gap-4">
   <div class="text-center md:text-right">
     <h1 class="text-3xl md:text-4xl font-bold text-primary"><i class="fa-solid fa-chart-line ml-2"></i>MasterFinance</h1>
@@ -88,10 +88,10 @@
     </button>
   </div>
 </header>
- 
+
 <!-- Notifications -->
 <div id="alertsHost" class="space-y-2 mb-6"></div>
- 
+
 <!-- Month Navigator -->
 <div class="glass-card rounded-xl p-3 mb-6 flex items-center justify-between">
   <button id="prevMonthBtn" class="px-3 py-2 rounded hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300"><i class="fa-solid fa-chevron-right"></i></button>
@@ -101,7 +101,7 @@
   </div>
   <button id="nextMonthBtn" class="px-3 py-2 rounded hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300"><i class="fa-solid fa-chevron-left"></i></button>
 </div>
- 
+
 <!-- KPIs -->
 <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
   <div class="glass-card p-6 rounded-xl border-t-4 border-t-primary">
@@ -122,12 +122,12 @@
     <div id="projectedBalance" class="text-3xl font-black">0 ₪</div>
   </div>
 </div>
- 
+
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
- 
+
   <!-- Left column -->
   <div class="lg:col-span-1 space-y-6">
- 
+
     <div class="glass-card p-6 rounded-xl">
       <h2 class="text-xl font-bold text-primary dark:text-blue-300 mb-4" id="formTitle"><i class="fa-solid fa-plus-circle"></i> הוספת תנועה חדשה</h2>
       <form id="transactionForm" class="space-y-4">
@@ -178,32 +178,32 @@
         </div>
       </form>
     </div>
- 
+
     <div class="glass-card p-6 rounded-xl">
       <h2 class="text-xl font-bold text-primary dark:text-blue-300 mb-4"><i class="fa-solid fa-chart-pie"></i> התפלגות הוצאות (חודש נבחר)</h2>
       <canvas id="expensesChart" height="220"></canvas>
     </div>
- 
+
     <div class="glass-card p-6 rounded-xl">
       <h2 class="text-xl font-bold text-primary dark:text-blue-300 mb-4"><i class="fa-solid fa-tags"></i> הוצאות לפי תיוג</h2>
       <div id="tagBreakdown" class="space-y-2 text-sm"></div>
     </div>
- 
+
     <div class="glass-card p-6 rounded-xl">
       <h2 class="text-xl font-bold text-primary dark:text-blue-300 mb-4"><i class="fa-solid fa-bullseye"></i> תקציב חודשי לפי קטגוריה</h2>
       <div class="space-y-4" id="budgetArea"></div>
     </div>
- 
+
   </div>
- 
+
   <!-- Right column -->
   <div class="lg:col-span-2 space-y-6">
- 
+
     <div class="glass-card p-6 rounded-xl">
       <h2 class="text-xl font-bold text-primary dark:text-blue-300 mb-4"><i class="fa-solid fa-chart-line"></i> תחזית תזרים - 30 יום קדימה</h2>
       <canvas id="forecastChart" height="140"></canvas>
     </div>
- 
+
     <div class="glass-card p-6 rounded-xl overflow-hidden">
       <div class="flex flex-col md:flex-row justify-between md:items-center gap-3 mb-4">
         <h2 class="text-xl font-bold text-primary dark:text-blue-300"><i class="fa-solid fa-list"></i> תנועות שבוצעו</h2>
@@ -232,7 +232,7 @@
         <div id="completedEmpty" class="hidden text-center text-slate-400 py-8 text-sm">אין תנועות שבוצעו בחודש זה</div>
       </div>
     </div>
- 
+
     <div class="glass-card p-6 rounded-xl overflow-hidden">
       <h2 class="text-xl font-bold text-secondary mb-4"><i class="fa-solid fa-clock"></i> תכנון והמתנה (עתידי)</h2>
       <div class="overflow-x-auto">
@@ -250,7 +250,7 @@
         <div id="futureEmpty" class="hidden text-center text-slate-400 py-8 text-sm">אין תנועות עתידיות בחודש זה</div>
       </div>
     </div>
- 
+
     <div class="glass-card p-6 rounded-xl overflow-hidden">
       <div class="flex justify-between items-center mb-4">
         <h2 class="text-xl font-bold text-danger"><i class="fa-solid fa-hand-holding-dollar"></i> מעקב הלוואות והתחייבויות</h2>
@@ -272,10 +272,10 @@
         <div id="debtEmpty" class="hidden text-center text-slate-400 py-8 text-sm">אין התחייבויות רשומות</div>
       </div>
     </div>
- 
+
   </div>
 </div>
- 
+
 <!-- Settings Modal -->
 <div id="settingsModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
   <div class="glass-card rounded-xl p-6 max-w-lg w-full max-h-[85vh] overflow-y-auto">
@@ -300,9 +300,9 @@
         <input type="number" id="budgetHomeInput" step="1" class="w-full p-2 border border-slate-300 rounded">
       </div>
       <button id="saveBudgetsBtn" class="w-full bg-primary text-white font-bold py-2 rounded">שמור תקציבים</button>
- 
+
       <hr class="border-slate-200 dark:border-slate-700">
- 
+
       <div>
         <label class="block font-medium mb-1">חיבור לגוגל שיטס (אופציונלי)</label>
         <input type="text" id="googleUrlInput" placeholder="הדבק כאן קישור Apps Script" class="w-full p-2 border border-slate-300 rounded mb-2">
@@ -312,9 +312,9 @@
         </div>
         <p class="text-xs text-slate-400 mt-1">הנתונים נשמרים תמיד באופן מקומי אוטומטית. גוגל שיטס הוא גיבוי נוסף אופציונלי.</p>
       </div>
- 
+
       <hr class="border-slate-200 dark:border-slate-700">
- 
+
       <div class="flex gap-2">
         <button id="exportJsonBtn" class="flex-1 bg-slate-600 text-white py-2 rounded text-xs"><i class="fa-solid fa-download"></i> גיבוי JSON</button>
         <label class="flex-1 bg-slate-600 text-white py-2 rounded text-xs text-center cursor-pointer">
@@ -322,12 +322,12 @@
           <input type="file" id="importJsonInput" accept="application/json" class="hidden">
         </label>
       </div>
- 
+
       <button id="resetDataBtn" class="w-full bg-white border border-danger text-danger font-bold py-2 rounded hover:bg-red-50">איפוס כל הנתונים</button>
     </div>
   </div>
 </div>
- 
+
 <!-- Debt Modal -->
 <div id="debtModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
   <div class="glass-card rounded-xl p-6 max-w-sm w-full">
@@ -357,39 +357,70 @@
     </form>
   </div>
 </div>
- 
+
 <script>
 /* =========================================================
    MasterFinance - Data Layer
    ========================================================= */
-const STORAGE_KEY = 'masterfinance-data-v1';
- 
+const STORAGE_KEY = 'masterfinance-data-v2';
+
 const DEFAULT_STATE = {
-  openingBalance: -2453.84,
+  // יתרת פתיחה אמיתית לפי הגיליון ("יתרת פתיחה אוגוסט")
+  openingBalance: -5031.36,
   budgets: { business: 0, home: 0 },
   googleUrl: '',
   darkMode: false,
   transactions: [
-    { id: 1, type: 'income', category: 'home', tag: '', description: 'משכורת רמות מ.א', amount: 6042.11, date: '2026-08-06' },
-    { id: 2, type: 'income', category: 'business', tag: '', description: 'עבודה - פייבוקס', amount: 200, date: '2026-08-05' },
-    { id: 3, type: 'expense', category: 'business', tag: 'דלק', description: 'דלק', amount: 312.83, date: '2026-08-03' },
-    { id: 4, type: 'pending_income', category: 'business', tag: '', description: 'בר עמרן - עבודת חשמל מגרש 101', amount: 1200, date: '2026-08-31' },
-    { id: 5, type: 'pending_income', category: 'business', tag: '', description: 'בר עמרן - מגרשים', amount: 1300, date: '2026-08-31' },
-    { id: 6, type: 'pending_income', category: 'business', tag: '', description: 'בר עמרן - מגרשים', amount: 1300, date: '2026-08-31' },
-    { id: 7, type: 'fixed_expense', category: 'home', tag: '', description: 'מתנה עליסה', amount: 596, date: '2026-08-01', recurring: false },
-    { id: 8, type: 'fixed_expense', category: 'business', tag: 'כלים', description: 'כלים', amount: 425, date: '2026-08-01', recurring: false },
-    { id: 9, type: 'fixed_expense', category: 'business', tag: 'דלק', description: 'דלק חודשי קבוע', amount: 450, date: '2026-08-01', recurring: true },
-    { id: 10, type: 'fixed_expense', category: 'home', tag: '', description: 'פרטנר', amount: 25, date: '2026-08-01', recurring: true }
+    // --- יומן תנועות בפועל (טבלה א') - כל 28 השורות מהגיליון ---
+    { id: 1, type: 'expense', category: 'home', tag: 'דלק', description: 'דלק', amount: 312.83, date: '2026-08-03' },
+    { id: 2, type: 'expense', category: 'home', tag: '', description: 'ספר', amount: 86.85, date: '2026-08-04' },
+    { id: 3, type: 'expense', category: 'home', tag: 'אוכל', description: 'אוכל', amount: 48, date: '2026-08-04' },
+    { id: 4, type: 'income', category: 'business', tag: '', description: 'עבודה - פייבוקס', amount: 200, date: '2026-08-05' },
+    { id: 5, type: 'expense', category: 'home', tag: '', description: 'סופר', amount: 101.73, date: '2026-08-05' },
+    { id: 6, type: 'expense', category: 'home', tag: 'ביטוח', description: 'מכבי ביטוח', amount: 113.93, date: '2026-08-05' },
+    { id: 7, type: 'income', category: 'home', tag: '', description: 'משכורת - רמות מ.א', amount: 6042.11, date: '2026-08-06' },
+    { id: 8, type: 'expense', category: 'home', tag: 'אוכל', description: 'אוכל', amount: 45.55, date: '2026-08-04' },
+    { id: 9, type: 'expense', category: 'business', tag: '', description: 'עבודה', amount: 561, date: '2026-08-04' },
+    { id: 10, type: 'expense', category: 'home', tag: '', description: 'סופר פראם', amount: 195, date: '2026-08-04' },
+    { id: 11, type: 'expense', category: 'home', tag: '', description: 'סופר פראם', amount: 94.9, date: '2026-08-04' },
+    { id: 12, type: 'expense', category: 'home', tag: '', description: 'סיגריות', amount: 42, date: '2026-08-07' },
+    { id: 13, type: 'expense', category: 'home', tag: '', description: 'סופר', amount: 48.95, date: '2026-08-06' },
+    { id: 14, type: 'income', category: 'business', tag: '', description: 'עבודה', amount: 800, date: '2026-08-06' },
+    { id: 15, type: 'expense', category: 'home', tag: '', description: 'גלידה', amount: 37, date: '2026-08-08' },
+    { id: 16, type: 'expense', category: 'home', tag: '', description: 'סיגריות', amount: 43.5, date: '2026-08-08' },
+    { id: 17, type: 'expense', category: 'home', tag: '', description: 'סופר', amount: 278.92, date: '2026-08-07' },
+    { id: 18, type: 'expense', category: 'home', tag: 'הוצאות קבועות', description: 'הוצאות קבועות (הו"ק בעו"ש)', amount: 1556.74, date: '2026-08-10' },
+    { id: 19, type: 'expense', category: 'home', tag: 'דלק', description: 'דלק', amount: 243.63, date: '2026-08-10' },
+    { id: 20, type: 'expense', category: 'home', tag: 'אוכל', description: 'אוכל אולף', amount: 458, date: '2026-08-10' },
+    { id: 21, type: 'expense', category: 'home', tag: '', description: 'סיגריות', amount: 43.5, date: '2026-08-10' },
+    { id: 22, type: 'expense', category: 'home', tag: '', description: 'גולדה', amount: 30, date: '2026-08-10' },
+    { id: 23, type: 'expense', category: 'home', tag: '', description: 'סופר', amount: 36.16, date: '2026-08-10' },
+    { id: 24, type: 'expense', category: 'home', tag: '', description: 'חניון', amount: 34, date: '2026-08-10' },
+    { id: 25, type: 'expense', category: 'home', tag: '', description: 'סיגריות', amount: 52.4, date: '2026-08-12' },
+    { id: 26, type: 'expense', category: 'home', tag: '', description: 'אלמה', amount: 5.9, date: '2026-08-12' },
+    { id: 27, type: 'income', category: 'business', tag: '', description: 'אלמה', amount: 5.9, date: '2026-08-13' },
+    { id: 28, type: 'expense', category: 'home', tag: '', description: 'אלמה מרקט', amount: 5.9, date: '2026-08-13' },
+
+    // --- הכנסות עתידיות / ממתינות ---
+    { id: 29, type: 'pending_income', category: 'business', tag: '', description: 'בר עמרן - עבודת חשמל מגרש 101 (2 מערכות)', amount: 1200, date: '2026-08-31' },
+    { id: 30, type: 'pending_income', category: 'business', tag: '', description: 'בר עמרן - עבודות חשמל מגרשים', amount: 1300, date: '2026-08-31' },
+    { id: 31, type: 'pending_income', category: 'business', tag: '', description: 'בר עמרן - עבודות חשמל מגרשים', amount: 1300, date: '2026-08-31' },
+
+    // --- הוצאות קבועות ---
+    { id: 32, type: 'fixed_expense', category: 'home', tag: '', description: 'מתנה עליסה', amount: 596, date: '2026-08-01', recurring: false },
+    { id: 33, type: 'fixed_expense', category: 'business', tag: 'כלים', description: 'כלים', amount: 425, date: '2026-08-01', recurring: false },
+    { id: 34, type: 'fixed_expense', category: 'business', tag: 'דלק', description: 'דלק חודשי קבוע', amount: 450, date: '2026-08-01', recurring: true },
+    { id: 35, type: 'fixed_expense', category: 'home', tag: '', description: 'פרטנר', amount: 25, date: '2026-08-01', recurring: true }
   ],
   debts: []
 };
- 
+
 let state = null;
 let expensesChartInstance = null;
 let forecastChartInstance = null;
 let sortState = { key: 'date', dir: 'desc' };
 let selectedMonth = todayMonthKey();
- 
+
 function todayMonthKey() {
   const d = new Date();
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
@@ -409,7 +440,7 @@ function toast(msg, type='info') {
   host.appendChild(el);
   setTimeout(()=> el.remove(), 3000);
 }
- 
+
 /* ---------- Storage ---------- */
 async function loadState() {
   try {
@@ -429,7 +460,7 @@ async function loadState() {
     state = JSON.parse(JSON.stringify(DEFAULT_STATE));
   }
 }
- 
+
 let saveTimer = null;
 async function saveState(immediate=false) {
   const doSave = async () => {
@@ -445,7 +476,7 @@ async function saveState(immediate=false) {
   clearTimeout(saveTimer);
   saveTimer = setTimeout(doSave, 300);
 }
- 
+
 /* ---------- Recurring generation ---------- */
 function ensureRecurringForMonth(monthKey) {
   const templates = state.transactions.filter(t => t.type === 'fixed_expense' && t.recurring);
@@ -475,7 +506,7 @@ function ensureRecurringForMonth(monthKey) {
   });
   return added;
 }
- 
+
 /* =========================================================
    Rendering
    ========================================================= */
@@ -484,7 +515,7 @@ function monthLabel(monthKey) {
   const names = ['ינואר','פברואר','מרץ','אפריל','מאי','יוני','יולי','אוגוסט','ספטמבר','אוקטובר','נובמבר','דצמבר'];
   return `${names[m-1]} ${y}`;
 }
- 
+
 function computeRealBalance() {
   let bal = state.openingBalance;
   state.transactions.forEach(t => {
@@ -493,7 +524,7 @@ function computeRealBalance() {
   });
   return bal;
 }
- 
+
 function computeBurnRate() {
   const now = new Date();
   const cutoff = new Date(now); cutoff.setDate(cutoff.getDate() - 30);
@@ -503,20 +534,20 @@ function computeBurnRate() {
   const total = recentExpenses.reduce((s,t)=> s + Number(t.amount), 0);
   return total / 30;
 }
- 
+
 function render() {
   document.getElementById('monthLabel').innerText = monthLabel(selectedMonth);
- 
+
   // auto-generate recurring for the month being viewed
   if (ensureRecurringForMonth(selectedMonth)) saveState();
- 
+
   const monthTx = state.transactions.filter(t => monthKeyOf(t.date) === selectedMonth);
- 
+
   const realBalance = computeRealBalance();
   let monthPending = 0, monthFixed = 0;
   let bizExpense = 0, homeExpense = 0;
   const tagTotals = {};
- 
+
   monthTx.forEach(t => {
     if (t.type === 'pending_income') monthPending += Number(t.amount);
     if (t.type === 'fixed_expense') {
@@ -529,13 +560,13 @@ function render() {
       if (t.tag) tagTotals[t.tag] = (tagTotals[t.tag]||0) + Number(t.amount);
     }
   });
- 
+
   const projected = realBalance + monthPending - monthFixed;
- 
+
   const cb = document.getElementById('currentBalance');
   cb.innerText = fmtMoney(realBalance);
   cb.className = 'text-3xl font-black ' + (realBalance >= 0 ? 'text-accent' : 'text-danger');
- 
+
   const burn = computeBurnRate();
   const burnNote = document.getElementById('burnRateNote');
   if (burn > 0 && realBalance > 0) {
@@ -546,13 +577,13 @@ function render() {
   } else {
     burnNote.innerText = '';
   }
- 
+
   document.getElementById('pendingIncome').innerText = fmtMoney(monthPending);
   document.getElementById('fixedExpenses').innerText = fmtMoney(monthFixed);
   const pb = document.getElementById('projectedBalance');
   pb.innerText = fmtMoney(projected);
   pb.className = 'text-3xl font-black ' + (projected >= 0 ? 'text-accent' : 'text-danger');
- 
+
   renderTables(monthTx);
   renderBudgets(bizExpense, homeExpense);
   renderTagBreakdown(tagTotals);
@@ -561,19 +592,19 @@ function render() {
   renderDebts();
   renderAlerts(realBalance, projected, bizExpense, homeExpense);
 }
- 
+
 function renderAlerts(realBalance, projected, bizExpense, homeExpense) {
   const host = document.getElementById('alertsHost');
   host.innerHTML = '';
   const alerts = [];
- 
+
   if (realBalance < 0) alerts.push({ level:'danger', text: 'שים לב: היתרה בפועל בעו"ש שלילית כרגע.' });
   if (projected < 0) alerts.push({ level:'warn', text: `לפי התכנון, צפי סוף החודש הנבחר הוא שלילי (${fmtMoney(projected)}).` });
   if (state.budgets.business > 0 && bizExpense > state.budgets.business)
     alerts.push({ level:'warn', text: `חריגה מתקציב עסק בחודש הנבחר: ${fmtMoney(bizExpense)} מתוך ${fmtMoney(state.budgets.business)}.` });
   if (state.budgets.home > 0 && homeExpense > state.budgets.home)
     alerts.push({ level:'warn', text: `חריגה מתקציב בית בחודש הנבחר: ${fmtMoney(homeExpense)} מתוך ${fmtMoney(state.budgets.home)}.` });
- 
+
   const today = new Date();
   state.debts.forEach(d => {
     const dueThisMonth = new Date(today.getFullYear(), today.getMonth(), d.dueDay);
@@ -582,7 +613,7 @@ function renderAlerts(realBalance, projected, bizExpense, homeExpense) {
       alerts.push({ level:'warn', text: `תשלום קרוב: "${d.name}" בעוד ${diffDays===0?'היום':diffDays+' ימים'} (${fmtMoney(d.monthly)}).` });
     }
   });
- 
+
   alerts.forEach(a => {
     const cls = a.level === 'danger' ? 'bg-red-50 border-danger text-danger' : 'bg-amber-50 border-warn text-amber-700';
     const icon = a.level === 'danger' ? 'fa-circle-exclamation' : 'fa-triangle-exclamation';
@@ -592,7 +623,7 @@ function renderAlerts(realBalance, projected, bizExpense, homeExpense) {
     host.appendChild(div);
   });
 }
- 
+
 function renderBudgets(biz, home) {
   const area = document.getElementById('budgetArea');
   area.innerHTML = '';
@@ -614,7 +645,7 @@ function renderBudgets(biz, home) {
       </div>`;
   });
 }
- 
+
 function renderTagBreakdown(tagTotals) {
   const host = document.getElementById('tagBreakdown');
   const entries = Object.entries(tagTotals).sort((a,b)=>b[1]-a[1]).slice(0,6);
@@ -630,20 +661,20 @@ function renderTagBreakdown(tagTotals) {
     </div>
   `).join('');
 }
- 
+
 function renderTables(monthTx) {
   const completedBody = document.getElementById('completedBody');
   const futureBody = document.getElementById('futureBody');
   completedBody.innerHTML = '';
   futureBody.innerHTML = '';
- 
+
   const search = document.getElementById('searchInput').value.trim().toLowerCase();
   const catFilter = document.getElementById('filterCategory').value;
- 
+
   let completed = monthTx.filter(t => t.type === 'income' || t.type === 'expense');
   if (search) completed = completed.filter(t => t.description.toLowerCase().includes(search));
   if (catFilter) completed = completed.filter(t => t.category === catFilter);
- 
+
   completed.sort((a,b) => {
     let va = sortState.key === 'amount' ? Number(a.amount) : a.date;
     let vb = sortState.key === 'amount' ? Number(b.amount) : b.date;
@@ -651,9 +682,9 @@ function renderTables(monthTx) {
     if (va > vb) return sortState.dir === 'asc' ? 1 : -1;
     return 0;
   });
- 
+
   document.getElementById('completedEmpty').classList.toggle('hidden', completed.length > 0);
- 
+
   completed.forEach(t => {
     const badgeClass = t.category === 'business' ? 'bg-primary text-white' : 'bg-purple-600 text-white';
     const categoryText = t.category === 'business' ? 'עסק' : 'בית';
@@ -672,10 +703,10 @@ function renderTables(monthTx) {
       </td>`;
     completedBody.appendChild(tr);
   });
- 
+
   let future = monthTx.filter(t => t.type === 'pending_income' || t.type === 'fixed_expense');
   document.getElementById('futureEmpty').classList.toggle('hidden', future.length > 0);
- 
+
   future.forEach(t => {
     const badgeClass = t.category === 'business' ? 'bg-primary text-white' : 'bg-purple-600 text-white';
     const categoryText = t.category === 'business' ? 'עסק' : 'בית';
@@ -695,7 +726,7 @@ function renderTables(monthTx) {
     futureBody.appendChild(tr);
   });
 }
- 
+
 function renderDebts() {
   const body = document.getElementById('debtBody');
   body.innerHTML = '';
@@ -715,7 +746,7 @@ function renderDebts() {
     body.appendChild(tr);
   });
 }
- 
+
 function updateExpensesChart(biz, home) {
   const ctx = document.getElementById('expensesChart').getContext('2d');
   if (expensesChartInstance) expensesChartInstance.destroy();
@@ -728,23 +759,23 @@ function updateExpensesChart(biz, home) {
     options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { color: state.darkMode ? '#e2e8f0' : '#334155' } } } }
   });
 }
- 
+
 function updateForecastChart() {
   const ctx = document.getElementById('forecastChart').getContext('2d');
   if (forecastChartInstance) forecastChartInstance.destroy();
- 
+
   const start = new Date();
   start.setHours(0,0,0,0);
   const days = 30;
   let running = computeRealBalance();
   const labels = [];
   const data = [];
- 
+
   const upcoming = state.transactions.filter(t => t.type === 'pending_income' || t.type === 'fixed_expense');
   state.debts.forEach(d => {
     upcoming.push({ type: 'fixed_expense', amount: d.monthly, _debtDueDay: d.dueDay, description: d.name });
   });
- 
+
   for (let i = 0; i <= days; i++) {
     const day = new Date(start); day.setDate(day.getDate() + i);
     const dayStr = day.toISOString().slice(0,10);
@@ -758,7 +789,7 @@ function updateForecastChart() {
     labels.push(`${day.getDate()}/${day.getMonth()+1}`);
     data.push(Number(running.toFixed(2)));
   }
- 
+
   const textColor = state.darkMode ? '#cbd5e1' : '#475569';
   forecastChartInstance = new Chart(ctx, {
     type: 'line',
@@ -784,25 +815,25 @@ function updateForecastChart() {
     }
   });
 }
- 
+
 /* =========================================================
    Form handling (add / edit transactions)
    ========================================================= */
 const form = document.getElementById('transactionForm');
 const typeSelect = document.getElementById('type');
 const recurringWrap = document.getElementById('recurringWrap');
- 
+
 typeSelect.addEventListener('change', () => {
   recurringWrap.classList.toggle('hidden', typeSelect.value !== 'fixed_expense');
   recurringWrap.classList.toggle('flex', typeSelect.value === 'fixed_expense');
 });
- 
+
 form.addEventListener('submit', async function(e) {
   e.preventDefault();
   const submitBtn = document.getElementById('submitBtn');
   submitBtn.disabled = true;
   const editId = document.getElementById('editId').value;
- 
+
   const payload = {
     type: document.getElementById('type').value,
     category: document.getElementById('category').value,
@@ -812,13 +843,13 @@ form.addEventListener('submit', async function(e) {
     date: document.getElementById('date').value,
     recurring: document.getElementById('type').value === 'fixed_expense' ? document.getElementById('recurring').checked : false
   };
- 
+
   if (!payload.description || isNaN(payload.amount) || payload.amount <= 0 || !payload.date) {
     toast('נא למלא את כל השדות בצורה תקינה', 'error');
     submitBtn.disabled = false;
     return;
   }
- 
+
   if (editId) {
     const idx = state.transactions.findIndex(t => String(t.id) === String(editId));
     if (idx > -1) {
@@ -830,7 +861,7 @@ form.addEventListener('submit', async function(e) {
     state.transactions.push(Object.assign({ id: uid() }, payload));
     toast('התנועה נוספה', 'success');
   }
- 
+
   await saveState();
   syncToGoogleSheetsIfConfigured(payload).catch(()=>{});
   selectedMonth = monthKeyOf(payload.date) || selectedMonth;
@@ -840,7 +871,7 @@ form.addEventListener('submit', async function(e) {
   recurringWrap.classList.add('hidden');
   submitBtn.disabled = false;
 });
- 
+
 function enterEditMode(tx) {
   document.getElementById('editId').value = tx.id;
   document.getElementById('type').value = tx.type;
@@ -864,7 +895,7 @@ function exitEditMode() {
   document.getElementById('cancelEditBtn').classList.add('hidden');
 }
 document.getElementById('cancelEditBtn').addEventListener('click', () => { form.reset(); document.getElementById('date').valueAsDate = new Date(); exitEditMode(); });
- 
+
 /* delete/edit delegation */
 document.addEventListener('click', async (e) => {
   const editBtn = e.target.closest('.editBtn');
@@ -881,7 +912,7 @@ document.addEventListener('click', async (e) => {
     render();
   }
 });
- 
+
 /* =========================================================
    Search / filter / sort
    ========================================================= */
@@ -895,7 +926,7 @@ document.querySelectorAll('.sortable').forEach(th => {
     render();
   });
 });
- 
+
 /* =========================================================
    Month navigation
    ========================================================= */
@@ -908,7 +939,7 @@ function shiftMonth(delta) {
 document.getElementById('prevMonthBtn').addEventListener('click', () => shiftMonth(-1));
 document.getElementById('nextMonthBtn').addEventListener('click', () => shiftMonth(1));
 document.getElementById('todayBtn').addEventListener('click', () => { selectedMonth = todayMonthKey(); render(); });
- 
+
 /* =========================================================
    Debts
    ========================================================= */
@@ -919,7 +950,7 @@ document.getElementById('addDebtBtn').addEventListener('click', () => {
   debtModal.classList.remove('hidden');
 });
 document.getElementById('closeDebtModalBtn').addEventListener('click', () => debtModal.classList.add('hidden'));
- 
+
 document.getElementById('debtForm').addEventListener('submit', async (e) => {
   e.preventDefault();
   const editId = document.getElementById('debtEditId').value;
@@ -943,7 +974,7 @@ document.getElementById('debtForm').addEventListener('submit', async (e) => {
   toast('ההתחייבות נשמרה', 'success');
   render();
 });
- 
+
 document.addEventListener('click', async (e) => {
   const editDebt = e.target.closest('.editDebtBtn');
   const delDebt = e.target.closest('.deleteDebtBtn');
@@ -965,7 +996,7 @@ document.addEventListener('click', async (e) => {
     render();
   }
 });
- 
+
 /* =========================================================
    Settings modal
    ========================================================= */
@@ -978,7 +1009,7 @@ document.getElementById('settingsBtn').addEventListener('click', () => {
   settingsModal.classList.remove('hidden');
 });
 document.getElementById('closeSettingsBtn').addEventListener('click', () => settingsModal.classList.add('hidden'));
- 
+
 document.getElementById('saveOpeningBtn').addEventListener('click', async () => {
   const v = parseFloat(document.getElementById('openingBalanceInput').value);
   if (isNaN(v)) { toast('סכום לא תקין', 'error'); return; }
@@ -987,7 +1018,7 @@ document.getElementById('saveOpeningBtn').addEventListener('click', async () => 
   toast('יתרת הפתיחה עודכנה', 'success');
   render();
 });
- 
+
 document.getElementById('saveBudgetsBtn').addEventListener('click', async () => {
   state.budgets.business = parseFloat(document.getElementById('budgetBusinessInput').value) || 0;
   state.budgets.home = parseFloat(document.getElementById('budgetHomeInput').value) || 0;
@@ -995,13 +1026,13 @@ document.getElementById('saveBudgetsBtn').addEventListener('click', async () => 
   toast('התקציבים עודכנו', 'success');
   render();
 });
- 
+
 document.getElementById('saveGoogleUrlBtn').addEventListener('click', async () => {
   state.googleUrl = document.getElementById('googleUrlInput').value.trim();
   await saveState();
   toast('הקישור נשמר', 'success');
 });
- 
+
 document.getElementById('syncGoogleBtn').addEventListener('click', async () => {
   if (!state.googleUrl) { toast('לא הוגדר קישור לגוגל שיטס', 'error'); return; }
   try {
@@ -1020,7 +1051,7 @@ document.getElementById('syncGoogleBtn').addEventListener('click', async () => {
     toast('שגיאה בסנכרון עם גוגל שיטס', 'error');
   }
 });
- 
+
 async function syncToGoogleSheetsIfConfigured(transaction) {
   if (!state.googleUrl) return;
   try {
@@ -1033,7 +1064,7 @@ async function syncToGoogleSheetsIfConfigured(transaction) {
     console.error('Google Sheets sync failed', err);
   }
 }
- 
+
 document.getElementById('exportJsonBtn').addEventListener('click', () => {
   const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
@@ -1042,7 +1073,7 @@ document.getElementById('exportJsonBtn').addEventListener('click', () => {
   a.click();
   URL.revokeObjectURL(url);
 });
- 
+
 document.getElementById('importJsonInput').addEventListener('change', (e) => {
   const file = e.target.files[0];
   if (!file) return;
@@ -1062,7 +1093,7 @@ document.getElementById('importJsonInput').addEventListener('change', (e) => {
   };
   reader.readAsText(file);
 });
- 
+
 document.getElementById('resetDataBtn').addEventListener('click', async () => {
   if (!confirm('פעולה זו תמחק את כל הנתונים לצמיתות. להמשיך?')) return;
   state = JSON.parse(JSON.stringify(DEFAULT_STATE));
@@ -1072,7 +1103,7 @@ document.getElementById('resetDataBtn').addEventListener('click', async () => {
   selectedMonth = todayMonthKey();
   render();
 });
- 
+
 /* =========================================================
    CSV export
    ========================================================= */
@@ -1089,7 +1120,7 @@ document.getElementById('exportCsvBtn').addEventListener('click', () => {
   a.click();
   URL.revokeObjectURL(url);
 });
- 
+
 /* =========================================================
    Dark mode
    ========================================================= */
@@ -1105,7 +1136,7 @@ function applyDarkMode() {
     ? '<i class="fa-solid fa-sun"></i>'
     : '<i class="fa-solid fa-moon"></i>';
 }
- 
+
 /* =========================================================
    Init
    ========================================================= */
@@ -1119,4 +1150,3 @@ function applyDarkMode() {
 </script>
 </body>
 </html>
- 
