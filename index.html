@@ -161,7 +161,7 @@
 
     <script>
         // שים לב: כאן אתה מדביק את הלינק שקיבלת מה-Apps Script של גוגל!
-        const GOOGLE_APP_URL = 'https://script.google.com/macros/s/AKfycbyzewfMQjE08y8JS4S44OdeUuJTfnAdhZjcYHfPPs_T-sGwQ5bwMozesqzI8yk_fakDKQ/exec';
+        const GOOGLE_APP_URL = 'https://script.google.com/macros/s/AKfycbzkKSNeQ1qnSsOz9LnmUbMRJ5qUdVEdSbQnXjp4zSGsDqw8ruV_xjo_lUJue-CQOcFZlQ/exec';
 
         // מערך נתוני בסיס ראשוניים מתוך גיליון ה"ניהול פיננסי" שהבאת לי
         let transactions = [
@@ -181,7 +181,7 @@
 
         async function loadData() {
             // אם הוכנס לינק של גוגל, ננסה למשוך משם נתונים. אם לא, נשתמש בנתוני הבסיס שיש במערך
-            if(GOOGLE_APP_URL !== 'https://script.google.com/macros/s/AKfycbyzewfMQjE08y8JS4S44OdeUuJTfnAdhZjcYHfPPs_T-sGwQ5bwMozesqzI8yk_fakDKQ/exec') {
+            if(GOOGLE_APP_URL !== 'הכנס_את_הלינק_של_גוגל_כאן') {
                 try {
                     const response = await fetch(GOOGLE_APP_URL);
                     const data = await response.json();
@@ -211,7 +211,7 @@
             };
 
             // אם הלינק מוגדר, שולח לגוגל שיטס
-            if(GOOGLE_APP_URL !== 'https://script.google.com/macros/s/AKfycbyzewfMQjE08y8JS4S44OdeUuJTfnAdhZjcYHfPPs_T-sGwQ5bwMozesqzI8yk_fakDKQ/exec') {
+            if(GOOGLE_APP_URL !== 'הכנס_את_הלינק_של_גוגל_כאן') {
                 try {
                     await fetch(GOOGLE_APP_URL, {
                         method: 'POST',
